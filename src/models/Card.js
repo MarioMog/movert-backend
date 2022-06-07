@@ -36,5 +36,10 @@ const Card = sequelize.define('Card', {
 }
 )
 
-User.hasOne(Card)
+User.hasOne(Card, {
+  foreignKey: {
+    name: 'id_user'
+  }
+})
+
 module.exports = Card

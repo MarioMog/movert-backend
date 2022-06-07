@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize')
 const sequelize = require('../db')
+const User = require('./User')
 
 const Card = sequelize.define('Card', {
   id_card: {
@@ -35,4 +36,5 @@ const Card = sequelize.define('Card', {
 }
 )
 
+User.hasOne(Card)
 module.exports = Card

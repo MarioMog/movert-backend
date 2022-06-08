@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize')
 const sequelize = require('../db')
+const User = require('./User')
 
 const LogUser = sequelize.define('LogUser', {
   id_log: {
@@ -25,7 +26,11 @@ const LogUser = sequelize.define('LogUser', {
   timestamps: true,
   createdAt: true,
   updatedAt: false
-}
-)
+})
 
+User.hasMany(LogUser, {
+  foreignKey: {
+    name: 'id_user'
+  }
+})
 module.exports = LogUser

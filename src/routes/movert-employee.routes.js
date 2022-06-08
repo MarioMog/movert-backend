@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { loginEmployee } = require('../controllers/Employee.controller')
+const { loginEmployee } = require('../controllers/employee.controller')
 const { getUserById } = require('../controllers/user.controller')
 const { isAuthorized } = require('../middlewares/isAuthorized')
 

@@ -10,6 +10,7 @@ app.use(express.urlencoded({ extended: true })) // allow forms
 app.use(cors()) // require to allow acces from other ports
 
 // routes
+app.use('/movert-employee', require('./routes/movert-employee.routes'))
 app.use('/health', (req, res) => {
   res.status(200).json({ message: 'Hello world!!' })
 })

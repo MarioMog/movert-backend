@@ -1,8 +1,13 @@
 /* eslint-disable no-undef */
-const { getEmployeeById, createEmployee, updateEmployee, loginEmployee } = require('../../services/employee.service')
 const bcrypt = require('bcrypt')
 
+const sequelize = require('../../db')
+const { getEmployeeById, createEmployee, updateEmployee, loginEmployee } = require('../../services/employee.service')
+
 describe('EmployeeServices', () => {
+  afterAll(() => {
+    sequelize.close()
+  })
   test('1.1)Create employee', async () => {
     const body = {
       name: 'Mario',

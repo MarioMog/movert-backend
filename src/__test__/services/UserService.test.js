@@ -1,12 +1,18 @@
 /* eslint-disable no-undef */
-const { getUserById, createUser, updateUser, loginUser } = require('../../services/user.service')
 const bcrypt = require('bcrypt')
+
+const sequelize = require('../../db')
+const { getUserById, createUser, updateUser, loginUser } = require('../../services/user.service')
+
 describe('UserServices', () => {
+  afterAll(() => {
+    sequelize.close()
+  })
   test('1.1)Create user', async () => {
     const password = await bcrypt.hash('123456', 10)
     const body = {
       name: 'Juan',
-      lastName: 'Escutia',
+      last_name: 'Escutia',
       email: 'juan@hotmail.com',
       password
     }

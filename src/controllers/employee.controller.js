@@ -20,22 +20,23 @@ module.exports.loginEmployee = async (req, res) => {
       res.status(401).json({
         error: 'invalid id or password'
       })
+    } else {
+      const token = jwt.sign(
+        {
+          data: {
+            email: employee.email,
+            id_employee: employee.id_employee
+          }
+        },
+        JWT_SECRETE,
+        { expiresIn: '1h' }
+      )
+      res.status(200).json({
+        name: employee.name,
+        id_employee: employee.id_employee,
+        token
+      })
     }
-    const token = jwt.sign(
-      {
-        data: {
-          email: employee.email,
-          id_employee: employee.id_employee
-        }
-      },
-      JWT_SECRETE,
-      { expiresIn: '1h' }
-    )
-    res.status(200).json({
-      name: employee.name,
-      id_employee: employee.id_employee,
-      token
-    })
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: 'Server internal error', err: error })

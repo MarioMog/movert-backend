@@ -6,7 +6,6 @@ module.exports.createCard = async (req, res) => {
   try {
     const { body } = req
     const idCard = await uuidv4().replace(/-/g, '').replace(/(.{2})/g, '$1:').substring(0, 23)
-    delete body.app
     const card = await createCard({ ...body, id_card: idCard })
     if (!card) {
       res.status(401).json({
@@ -33,7 +32,6 @@ module.exports.associateCardToUser = async (req, res) => {
       })
     } else {
       let errorFlag = false
-      delete body.app
       if (body.user_type === 1) {
         if ('school' in body) body.expiration = Date.now()
         else {

@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 require('dotenv').config()
 const { JWT_SECRETU } = process.env
 
-const { getUserById, loginUser } = require('../services/user.service')
+const { getUserById, loginUser, createUser } = require('../services/user.service')
 
 module.exports.loginUser = async (req, res) => {
   try {
@@ -20,22 +20,44 @@ module.exports.loginUser = async (req, res) => {
       res.status(401).json({
         error: 'invalid id or password'
       })
+    } else {
+      const token = jwt.sign(
+        {
+          data: {
+            email: employee.email,
+            id_employee: employee.id_employee
+          }
+        },
+        JWT_SECRETU,
+        { expiresIn: '1h' }
+      )
+      res.status(200).json({
+        name: employee.name,
+        id_employee: employee.id_employee,
+        token
+      })
     }
-    const token = jwt.sign(
-      {
-        data: {
-          email: employee.email,
-          id_employee: employee.id_employee
-        }
-      },
-      JWT_SECRETU,
-      { expiresIn: '1h' }
-    )
-    res.status(200).json({
-      name: employee.name,
-      id_employee: employee.id_employee,
-      token
-    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: 'Server internal error', err: error })
+  }
+}
+
+module.exports.registerUser = async (req, res) => {
+  try {
+    const { body } = req
+    const user = await createUser({ ...body, password: await bcrypt.hash(body.password, 10) })
+
+    if (!user) {
+      res.status(401).json({
+        error: 'User cannot be created'
+      })
+    } else {
+      res.status(200).json({
+        email: user.email,
+        name: user.name
+      })
+    }
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: 'Server internal error', err: error })
@@ -52,11 +74,12 @@ module.exports.getUserById = async (req, res) => {
       res.status(401).json({
         error: 'invalid id'
       })
+    } else {
+      res.status(200).json({
+        email: user.email,
+        name: user.name
+      })
     }
-    res.status(200).json({
-      email: user.email,
-      name: user.name
-    })
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: 'Server internal error', err: error })

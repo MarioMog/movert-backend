@@ -11,13 +11,7 @@ module.exports.getUserById = async (id) => {
 
 module.exports.createUser = async (body) => {
   try {
-    const { name, lastName, email, password } = body
-    return await User.create({
-      name,
-      last_name: lastName,
-      password,
-      email
-    })
+    return await User.create(body)
   } catch (error) {
     console.log(error)
     throw error

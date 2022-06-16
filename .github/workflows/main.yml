@@ -22,5 +22,7 @@ jobs:
           rollbackonhealthcheckfailed: true
         env:
           HD_DB_URI: ${{secrets.DB_URI}}
+          HD_ES_EMAIL: ${{secrets.ES_EMAIL}}
+          HD_ES_PASSWORD: ${{secrets.ES_PASSWORD}}
           HD_JWT_SECRETE: ${{secrets.JWT_SECRETE}}
           HD_JWT_SECRETU: ${{secrets.JWT_SECRETU}}
